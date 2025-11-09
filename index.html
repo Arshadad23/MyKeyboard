@@ -47,7 +47,7 @@
     /* visual with transparent hero PNG (tilt + reflection) */
     .visual{border-radius:16px;overflow:visible;background:transparent;display:flex;justify-content:center;align-items:center;padding:28px}
     .hero-stage{position:relative;width:100%;max-width:760px;height:auto;display:flex;align-items:center;justify-content:center}
-    .hero-stage .product{position:relative;width:88%;max-width:720px;transform:rotate(-10deg);transition:transform 500ms ease;will-change:transform}
+    .hero-stage .product{position:relative;width:88%;max-width:720px;transform:rotate(0deg);transition:transform 500ms ease;will-change:transform}
     .hero-stage .product img{display:block;width:100%;height:auto;pointer-events:none}
 
     /* ground shadow */
@@ -152,9 +152,9 @@
           <div class="hero-stage" role="img" aria-label="product hero">
             <!-- main product (transparent PNG). Default path: /mnt/data/hero.png. Fallback to existing image if not present -->
             <div class="product" id="productWrap">
-              <img id="heroProduct" src="images/kb4.jpg" alt="MyKeyboard product" onerror="this.src='/mnt/data/1ea59ba2d61db5a3f179a94ffac5bc7b.jpg'" />
+              <img id="heroProduct" src="images/kb5.jpg" alt="MyKeyboard product" onerror="this.src='/mnt/data/1ea59ba2d61db5a3f179a94ffac5bc7b.jpg'" />
               <div class="product-reflection" id="productReflection">
-                <img src="/mnt/data/hero.png" alt="reflection" onerror="this.src='/mnt/data/1ea59ba2d61db5a3f179a94ffac5bc7b.jpg'" />
+                <img src="images/kb6.jpg" alt="reflection" onerror="this.src='/mnt/data/1ea59ba2d61db5a3f179a94ffac5bc7b.jpg'" />
               </div>
             </div>
           </div>
