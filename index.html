@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MyKeyboard — Transparent Mechanical Keyboard</title>
+  <meta name="description" content="MyKeyboard — transparent mechanical keyboard. Minimal, cinematic landing — responsive for mobile and desktop. Waitlist (email-only)." />
+  <style>
+    /* ---------- Palette & tokens ---------- */
+    :root{
+      --bg:#071425;           /* deep slate blue for contrast */
+      --paper:#F7F6F4;        /* soft off-white for panels */
+      --muted:#9aa6ad;        /* neutral muted text */
+      --mint:#CFEFE4;         /* transparent case tint */
+      --coral:#FF7A59;        /* warm accent (soft coral) */
+      --sand:#F5E9D7;         /* warm neutral for small accents */
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      --container:1200px;
+      --shadow: 0 30px 70px rgba(2,6,14,0.6);
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg), #04101a);color:var(--paper);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+
+    /* container */
+    .wrap{max-width:var(--container);margin:0 auto;padding:20px}
+
+    /* header */
+    header{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .logo{font-weight:700;letter-spacing:0.6px}
+    .logo span{color:var(--mint);font-weight:800}
+    .nav{display:flex;gap:12px;align-items:center}
+    .nav a{color:var(--muted);font-size:14px}
+    .btn-wait{background:var(--coral);color:#071010;padding:9px 14px;border-radius:10px;border:0;font-weight:700}
+
+    /* hero */
+    .hero{display:grid;grid-template-columns:1fr;gap:18px;align-items:start;padding-top:6px}
+    .eyebrow{font-size:12px;color:var(--mint);font-weight:600}
+    h1{font-family:var(--serif);font-size:34px;margin:8px 0;color:var(--paper);line-height:1.02}
+    p.lead{color:var(--muted);font-size:15px;max-width:56ch}
+    .hero-controls{display:flex;gap:12px;align-items:center;margin-top:10px}
+    .preorder{background:linear-gradient(90deg,var(--mint), #d6fff0);color:#02131a;padding:10px 14px;border-radius:999px;border:0;font-weight:700}
+
+    /* visual with transparent hero PNG (tilt + reflection) */
+    .visual{border-radius:16px;overflow:visible;background:transparent;display:flex;justify-content:center;align-items:center;padding:28px}
+    .hero-stage{position:relative;width:100%;max-width:760px;height:auto;display:flex;align-items:center;justify-content:center}
+    .hero-stage .product{position:relative;width:88%;max-width:720px;transform:rotate(-10deg);transition:transform 500ms ease;will-change:transform}
+    .hero-stage .product img{display:block;width:100%;height:auto;pointer-events:none}
+
+    /* ground shadow */
+    .hero-stage::after{content:'';position:absolute;left:50%;transform:translateX(-50%);bottom:6%;width:68%;height:42px;border-radius:50%;filter:blur(30px);opacity:0.35;background:linear-gradient(90deg, rgba(0,0,0,0.7), rgba(0,0,0,0.45));z-index:0}
+
+    /* subtle reflection using pseudo element */
+    .product-reflection{position:absolute;left:0;right:0;top:100%;transform:translateY(-6%) scaleY(-1) rotate(-10deg);opacity:0.12;pointer-events:none;filter:blur(18px);mask-image:linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0));}
+
+    /* long description (editorial) */
+    .editorial{margin-top:18px;color:var(--paper);font-family:var(--serif);font-size:18px;line-height:1.6}
+
+    /* image mosaic */
+    .mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px}
+    .mosaic .card{background:rgba(255,255,255,0.02);border-radius:12px;padding:8px;border:1px solid rgba(255,255,255,0.02)}
+    .mosaic img{width:100%;display:block;border-radius:8px}
+
+    /* features section */
+    .features-block{display:grid;grid-template-columns:1fr;gap:12px;margin-top:34px}
+    .feature-hero{display:flex;gap:14px;align-items:center}
+    .feature-hero .icon{width:68px;height:68px;border-radius:12px;background:linear-gradient(180deg,var(--mint), rgba(255,255,255,0.85));display:flex;align-items:center;justify-content:center;color:#02131a;font-weight:800}
+    .features-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+    .fcard{background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+    .fcard h4{margin:0 0 6px;font-size:15px}
+    .fcard p{margin:0;color:var(--muted);font-size:13px}
+
+    /* specs and side column for desktop */
+    .split{display:grid;grid-template-columns:1fr;gap:20px;margin-top:30px}
+    .specs{background:rgba(255,255,255,0.02);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+    .specs ul{margin:0;padding-left:18px;color:var(--muted)}
+
+    /* footer CTA */
+    .footer-cta{margin-top:40px;background:linear-gradient(90deg,var(--coral), #ff9476);padding:36px;border-radius:64px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+    .footer-cta h2{margin:0;font-family:var(--serif);font-size:32px;color:#071010}
+    .wait-form{display:flex;gap:10px;width:100%;max-width:560px}
+    .wait-form input{flex:1;padding:12px;border-radius:10px;border:0}
+    .wait-form button{background:#071010;color:var(--coral);padding:12px 14px;border-radius:10px;border:0;font-weight:700}
+
+    /* responsive layout */
+    @media (min-width:980px){
+      .hero{grid-template-columns:520px 1fr}
+      .mosaic{grid-template-columns:1fr 1fr 1fr}
+      .features-block{grid-template-columns:1fr 380px}
+      .split{grid-template-columns:1fr 360px}
+      .footer-cta{flex-direction:row;align-items:center;justify-content:space-between}
+      .hero-stage .product{transform:rotate(-10deg) translateY(-6%)}
+    }
+
+    @media (max-width:520px){
+      h1{font-size:26px}
+      .editorial{font-size:15px}
+      .mosaic{grid-template-columns:1fr}
+      .features-grid{grid-template-columns:1fr}
+      .hero-stage .product{transform:rotate(-6deg) translateY(-4%)}
+      .hero-stage::after{bottom:3%;width:80%;height:28px}
+    }
+
+    /* micro */
+    .muted{color:var(--muted)}
+    .caps{font-size:13px;letter-spacing:1px;color:var(--mint);font-weight:700}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">MyKeyboard <span>Edition</span></div>
+      <nav class="nav" aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#specs">Specs</a>
+        <button class="btn-wait" onclick="document.getElementById('email').focus()">Join Waitlist</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <div class="eyebrow">LIMITED EDITION • TRANSPARENT</div>
+          <h1 id="hero-title">The low‑profile mechanical keyboard of your dreams.</h1>
+          <p class="lead">A clean, transparent design that reveals engineering—hot‑swappable tactile switches, multi‑connectivity, and a refined typing experience. Crafted to keep your desk minimalist and intentional.</p>
+
+          <div class="hero-controls">
+            <form method="GET" action="thank-you.html" class="sr-only" id="heroForm">
+              <input type="email" name="email" id="heroEmail" />
+            </form>
+            <button class="preorder" onclick="document.getElementById('email').focus()">Pre‑Order • April 4, 2024</button>
+            <div class="muted">macOS • Windows • Linux</div>
+          </div>
+
+          <p class="editorial">MyKeyboard is designed to balance clarity with character. The transparent polycarbonate shell reveals the copper coils and PCBs while keeping a refined, minimalist profile. Every keycap, knob and port is curated for tactile feedback and visual harmony.</p>
+
+          <!-- image mosaic -->
+          <div id="gallery" class="mosaic">
+            <div class="card"><img src="/mnt/data/29648.png" alt="angled view"/></div>
+            <div class="card"><img src="/mnt/data/29646.png" alt="close up"/></div>
+            <div class="card"><img src="/mnt/data/29645.png" alt="color variants"/></div>
+          </div>
+        </div>
+
+        <aside class="visual" aria-hidden>
+          <div class="hero-stage" role="img" aria-label="product hero">
+            <!-- main product (transparent PNG). Default path: /mnt/data/hero.png. Fallback to existing image if not present -->
+            <div class="product" id="productWrap">
+              <img id="heroProduct" src="/mnt/data/hero.png" alt="MyKeyboard product" onerror="this.src='/mnt/data/1ea59ba2d61db5a3f179a94ffac5bc7b.jpg'" />
+              <div class="product-reflection" id="productReflection">
+                <img src="/mnt/data/hero.png" alt="reflection" onerror="this.src='/mnt/data/1ea59ba2d61db5a3f179a94ffac5bc7b.jpg'" />
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- FEATURES -->
+      <section id="features" class="features-block">
+        <div>
+          <div class="feature-hero">
+            <div class="icon">MK</div>
+            <div>
+              <div style="font-family:var(--serif);font-size:20px">Features that matter</div>
+              <div class="muted" style="margin-top:6px">Engineered for clarity — every detail tuned for the desk‑first user.</div>
+            </div>
+          </div>
+
+          <div class="features-grid" style="margin-top:12px">
+            <div class="fcard"><h4>Gasket Mount</h4><p>Soft acoustic profile and comfortable typing with reduced rattles.</p></div>
+            <div class="fcard"><h4>Hot‑Swappable</h4><p>Swap switches without soldering — tweak sound & feel fast.</p></div>
+            <div class="fcard"><h4>Triple Connectivity</h4><p>USB‑C, Bluetooth 5.0, and 2.4GHz wireless — pair up to 4 devices.</p></div>
+            <div class="fcard"><h4>South‑Facing RGB</h4><p>Subtle under‑key lighting for a clean desk vibe.</p></div>
+            <div class="fcard"><h4>Companion App</h4><p>Save profiles, remap keys, and customize lighting from desktop or mobile.</p></div>
+            <div class="fcard"><h4>ANSI Layout</h4><p>Carefully labeled legends for macOS, Windows and Linux mappings.</p></div>
+          </div>
+        </div>
+
+        <aside class="specs">
+          <img src="/mnt/data/29644.png" alt="exploded view" style="width:100%;border-radius:10px;margin-bottom:12px"/>
+          <div style="color:var(--muted)">
+            <strong>Quick specs</strong>
+            <ul>
+              <li>Weight: ~680g</li>
+              <li>Size: 320 x 110 x 28 mm</li>
+              <li>Materials: Polycarbonate shell, aluminum plate (optional)</li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+
+      <!-- big product visual -->
+      <section class="split">
+        <div>
+          <div class="visual" style="margin-top:8px"><img src="/mnt/data/29647.jpg" alt="upper half" style="max-width:760px"/></div>
+        </div>
+        <aside class="specs">
+          <h4 style="margin:0 0 8px">Colorways & Add‑ons</h4>
+          <div class="muted">Clear • Rose • Onyx • Marine • Gold Tint</div>
+          <div style="margin-top:12px"><strong style="color:var(--paper)">Extras</strong>
+            <ul style="color:var(--muted);margin-top:6px">
+              <li>Optional aluminum top plate</li>
+              <li>Pre‑lubed switches available</li>
+              <li>Custom keycap sets</li>
+            </ul>
+          </div>
+        </aside>
+      </section>
+
+      <!-- footer CTA (email-only waitlist) -->
+      <section class="footer-cta" id="waitlist">
+        <h2>Stay in the loop — join the waitlist.</h2>
+        <form class="wait-form" method="GET" action="thank-you.html">
+          <input id="email" name="email" type="email" placeholder="your email address" required />
+          <button type="submit">Join Waitlist</button>
+        </form>
+      </section>
+
+    </main>
+
+    <footer style="margin-top:24px;color:var(--muted);font-size:13px">© MyKeyboard • Designed for minimalist desks • Images are mockups for product presentation</footer>
+  </div>
+
+  <script>
+    // hero behavior & defaults (tilt, reflection subtlety)
+    const product = document.getElementById('productWrap');
+    const img = document.getElementById('heroProduct');
+    const reflection = document.querySelector('.product-reflection img');
+
+    // If user didn't upload hero.png, fallback to bundled hero image already set via onerror.
+    img.addEventListener('load', ()=>{
+      // gradually show reflection only if PNG has transparency (approx check: file name hero.png)
+      const src = img.getAttribute('src') || '';
+      if(src.endsWith('hero.png')){
+        reflection.style.opacity = '0.12';
+      } else {
+        reflection.style.opacity = '0.08';
+      }
+    });
+
+    // subtle parallax on mouse move for desktop
+    document.addEventListener('mousemove', (e)=>{
+      if(window.innerWidth < 900) return;
+      const cx = window.innerWidth/2; const cy = window.innerHeight/2;
+      const dx = (e.clientX - cx)/60; const dy = (e.clientY - cy)/120;
+      product.style.transform = `rotate(${ -10 + dx }deg) translateY(${ -6 + (dy) }%)`;
+    });
+
+    // progressive: if /mnt/data/hero.png exists (uploaded), reflection image will be same; otherwise fallback already applies via onerror
+
+    // minimal form behavior: redirect to thank-you.html (GET)
+    document.querySelectorAll('form.wait-form, form#heroForm').forEach(f => {
+      f.addEventListener('submit', (ev)=>{
+        // allow native submission to thank-you.html; no backend attached
+      });
+    });
+
+  </script>
+</body>
+</html>
